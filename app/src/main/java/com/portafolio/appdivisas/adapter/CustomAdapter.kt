@@ -9,18 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.portafolio.appdivisas.R
 import com.portafolio.appdivisas.divisa
 
 class CustomAdapter(
     private val mList: List<ItemsViewModel>,
-    var mContext: Context
+    var mContext: Context,
+    var recyclerView: RecyclerView
 ) :
 
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
-
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
@@ -49,9 +48,7 @@ class CustomAdapter(
         return mList.size
     }
 
-    fun RecyclerView?.getCurrentPosition() : Int {
-        return (this?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-    }
+
 
     // Holds the views for adding it to image and text
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
@@ -60,14 +57,15 @@ class CustomAdapter(
         val textView: TextView = itemView.findViewById(R.id.textView)
         var activity = mContext as Activity
         //val recyclerView = activity
+
         /*---------------------------------------------------------------------------------------------------*/
         init {
             itemView.setOnClickListener {
 
-
-                val ItemsViewModel = mList[1]
+                var mposition = recyclerView.getChildAdapterPosition(ItemView)
+                val ItemsViewModel = mList[mposition]
                 //Log.d("----------", "mposition: "+getCurrentPosition())
-                Log.d("----------", "mposition: "+ItemView.id)
+                Log.d("----------", "mposition: "+mposition)
                 Log.d("----------", "mposition: " + ItemsViewModel.text)
                 intent = Intent(mContext, divisa::class.java)
                 intent!!.putExtra("text", ItemsViewModel.text)

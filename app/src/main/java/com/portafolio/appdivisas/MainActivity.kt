@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val BASE_URL = "https://api.frankfurter.app"
     private var valor = "dinero"
     private var moneda = "USD"
-    public val recyclerView: RecyclerView = TODO()
+
 
     /*
     *
@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
     val arrayList = ArrayList<presentacion>()//Creating an empty arraylist
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        recyclerView.findViewById<RecyclerView>(R.id.recycler_activity_main)
         setContentView(R.layout.activity_main)
         getAllComments()
 
@@ -53,10 +52,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-   public fun  getRecyclerView()
-    : RecyclerView {
-        return recyclerView
-    }
+
 
     override fun onResume() {
         super.onResume()
@@ -141,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // This will pass the ArrayList to our Adapter
-        val adapter = CustomAdapter(data, this)
+        val adapter = CustomAdapter(data, this, recyclerview)
 
         // Setting the Adapter with the recyclerview
         recyclerview.adapter = adapter
