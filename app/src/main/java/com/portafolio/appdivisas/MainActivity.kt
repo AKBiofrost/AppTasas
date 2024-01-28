@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.example.Dinero
 import com.example.exampleapikotlin.interfaz.APIService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.portafolio.appdivisas.adapter.ListElement
 import com.portafolio.test_api_kotlin.adapter.CustomAdapter
 import com.portafolio.test_api_kotlin.adapter.ItemsViewModel
@@ -44,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         getAllComments()
 
+        val button = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        button.setOnClickListener {
+
+            init()
+        }
     }
 
     override fun onStart() {
