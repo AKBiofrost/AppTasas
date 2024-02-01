@@ -9,6 +9,8 @@ data class Comments(
     val thumbnailUrl: String,
     val message: String,
     val status: String,
+    val body: String,
+
 
 
 )

@@ -9,15 +9,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.example.Dinero
 import com.example.exampleapikotlin.interfaz.APIService
+import com.example.exampleapikotlin.interfaz.Comments
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.JsonObject
 import com.portafolio.appdivisas.adapter.ListElement
+import com.portafolio.appdivisas.interfaz.date
+import com.portafolio.appdivisas.utiles.manipularJSON
 import com.portafolio.test_api_kotlin.adapter.CustomAdapter
 import com.portafolio.test_api_kotlin.adapter.ItemsViewModel
 import com.portafolio.test_api_kotlin.adapter.presentacion
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = "AppFinanciera"
 
     //private val BASE_URL = "https://jsonplaceholder.typicode.com"
-    private val BASE_URL = "https://api.frankfurter.app"
+    private var BASE_URL = "https://api.frankfurter.app"
     private var valor = "dinero"
     private var moneda = "USD"
 
@@ -60,10 +68,13 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onResume() {
+    override  fun onResume() {
         super.onResume()
 
         init()
+        GlobalScope.launch {
+        getAllDate();
+        }
     }
 
 
@@ -119,6 +130,53 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+
+    private   fun getAllDate(){
+
+        //BASE_URL="https://jsonplaceholder.typicode.com"
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(date::class.java)
+        //coroutineScope {
+           // launch {
+                api.getPostById("USD").enqueue(object : Callback<JsonObject> {
+                    override fun onResponse(
+                        call: Call<JsonObject>,
+                        response: Response<JsonObject>
+                    ) {
+                        if (response.isSuccessful) {
+                            val resCode = response.code()
+                            Log.e(TAG, "code: $resCode")
+                            Log.e(TAG, "response: ${response}")
+                            Log.e(TAG, "response: ${response.body()?.get("rates")}")
+                            val jsonM= manipularJSON()
+                            val j= JsonObject()
+                             j.add("rates",response.body()?.get("rates"))
+                            jsonM.JSONSave("rates.json", j,
+                                "com.portafolio.appdivisas",this@MainActivity )
+                            Log.e(TAG, "-------------------------------------------------------")
+                            /*
+                     for (i in response.body()?.indices!!) {
+                         Log.i(TAG, "-$i " + response.body()?.get(i)?.title)
+
+                     }
+                    */
+
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+
+                    }
+
+
+                })
+            //}
+       // }
+    }
     private fun init() {
 
         // getting the recyclerview by its id
