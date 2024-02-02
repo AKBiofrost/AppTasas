@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".divisa"
+            android:name=".ui.divisa"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="false">
 
         </activity>

@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.portafolio.appdivisas.R
-import com.portafolio.appdivisas.divisa
+import com.portafolio.appdivisas.ui.divisa
 
 class CustomAdapter(
     private val mList: List<ItemsViewModel>,

@@ -1,4 +1,4 @@
-package com.example.exampleapikotlin.interfaz
+package com.portafolio.appdivisas.model
 
 data class Comments(
 

@@ -1,31 +1,26 @@
-package com.portafolio.appdivisas
+package com.portafolio.appdivisas.ui
 
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.example.Dinero
+import com.portafolio.appdivisas.model.Dinero
 import com.example.exampleapikotlin.interfaz.APIService
-import com.example.exampleapikotlin.interfaz.Comments
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
-import com.portafolio.appdivisas.adapter.ListElement
+import com.portafolio.appdivisas.R
+import com.portafolio.appdivisas.controladores.peticiones
 import com.portafolio.appdivisas.interfaz.date
 import com.portafolio.appdivisas.utiles.manipularJSON
 import com.portafolio.test_api_kotlin.adapter.CustomAdapter
 import com.portafolio.test_api_kotlin.adapter.ItemsViewModel
 import com.portafolio.test_api_kotlin.adapter.presentacion
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
@@ -41,22 +36,21 @@ class MainActivity : AppCompatActivity() {
     private var valor = "dinero"
     private var moneda = "USD"
 
-
     /*
     *
     *
     *
     * */
+
     val arrayList = ArrayList<presentacion>()//Creating an empty arraylist
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getAllComments()
 
         val button = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         button.setOnClickListener {
+            peticiones.getAllComments(this)
 
-            init()
         }
     }
 
@@ -71,10 +65,6 @@ class MainActivity : AppCompatActivity() {
     override  fun onResume() {
         super.onResume()
 
-        init()
-        GlobalScope.launch {
-        getAllDate();
-        }
     }
 
 
@@ -153,6 +143,7 @@ class MainActivity : AppCompatActivity() {
                             Log.e(TAG, "response: ${response.body()?.get("rates")}")
                             val jsonM= manipularJSON()
                             val j= JsonObject()
+
                              j.add("rates",response.body()?.get("rates"))
                             jsonM.JSONSave("rates.json", j,
                                 "com.portafolio.appdivisas",this@MainActivity )

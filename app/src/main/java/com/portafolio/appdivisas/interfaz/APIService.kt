@@ -1,6 +1,6 @@
 package com.example.exampleapikotlin.interfaz
 
-import com.example.example.Dinero
+import com.portafolio.appdivisas.model.Dinero
 import retrofit2.Call
 import retrofit2.http.GET
 
