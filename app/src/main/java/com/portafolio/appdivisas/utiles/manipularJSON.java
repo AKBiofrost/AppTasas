@@ -34,17 +34,18 @@ public class manipularJSON {
         bufferedWriter.close();
 
     }
-/*
-    public Object ReadingJsonBasico(String params, String PackageName, Context context) {
+
+    public JsonObject ReadingJsonBasico(String params, String PackageName, Context context) {
 
         String ubicacionJSON = "/data/data/" + PackageName + "/files/" + params;
 
         Gson gson = new Gson();
-        Object objetoPersonal = null;
+        JsonObject objetoPersonal = null;
         try {
             BufferedReader buffer = new BufferedReader(new FileReader(ubicacionJSON));
             if( buffer!=null    ) {
-                objetoPersonal = gson.fromJson(buffer, body_json.class);
+
+                objetoPersonal = gson.fromJson(buffer, JsonObject.class);
             }
           //  System.out.println(objetoPersonal);
 
@@ -55,7 +56,7 @@ public class manipularJSON {
         return objetoPersonal;
 
     }
-*/
+
     public void Save_body_cell(String params, JsonObject mJsonResponse, String PackageName, Context context) throws JSONException, IOException {
 
         //Log.d(TAG, "Save_body_cell() called with: params = [" + params + "], mJsonResponse = [" + mJsonResponse + "], PackageName = [" + PackageName + "], context = [" + context + "]");

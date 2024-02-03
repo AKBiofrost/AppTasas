@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exampleapikotlin.interfaz.APIService
+import com.google.gson.Gson
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.portafolio.appdivisas.R
 import com.portafolio.appdivisas.interfaz.date
@@ -143,6 +145,12 @@ class peticiones {
     companion object {
         val TAG = "peticiones"
         val arrayList = ArrayList<presentacion>()//Creating an empty arraylist
+        val json= JsonObject()
+        val Listfechas= JsonArray()
+        val fechas= JsonObject()
+        val Listmonto= JsonArray()
+        val monto= JsonObject()
+
         public   fun getAllDate(context: Context, moneda: String){
 
             //BASE_URL="https://jsonplaceholder.typicode.com"
@@ -163,14 +171,45 @@ class peticiones {
                         Log.e(TAG, "code: $resCode")
                         Log.e(TAG, "response: ${response}")
                         Log.e(TAG, "response: ${response.body()?.get("rates")}")
-                        val j= JsonObject()
 
-                        j.add("rates",response.body()?.get("rates"))
-                        config.JSON.JSONSave("rates.json", j,
-                            "com.portafolio.appdivisas",context )
+                        json.add("rates",response.body()?.get("rates"))
+
                         Log.e(TAG, "-------------------------------------------------------")
 
                     }
+
+                    Log.i(TAG, "Reading: $json")
+                    val gson = Gson()
+
+                    var ratesObject = json.getAsJsonObject("rates")
+
+                    ratesObject.entrySet().forEach{
+                            (fecha, monedaObject) ->
+
+                        Listfechas.add(fecha)
+                        Listmonto.add(monedaObject)
+                        Log.i(TAG, "monedaObject: $fecha")
+                        Log.e(TAG, "monedaObject: "+monedaObject)
+
+                        /*
+                        val moneda = monedaObject.keySet().firstOrNull()
+                        val cantidad = monedaObject[0]?.asDouble
+*/
+                        monto.add("monto",Listmonto )
+                    }
+                    monto.add("monto",Listmonto )
+                    fechas.add("fechas",Listfechas )
+                    config.JSON.JSONSave("fechas.json", fechas,
+                        "com.portafolio.appdivisas",context )
+
+                    config.JSON.JSONSave("monto.json", monto,
+                        "com.portafolio.appdivisas",context )
+
+
+                    val ratesArray = JsonArray()
+
+                    Log.i(TAG, "Reading: $ratesObject")
+                    Log.i(TAG, "Reading: $ratesObject")
 
                 }
 
@@ -260,7 +299,46 @@ class peticiones {
 
 
         }
+
+        fun reading(context:Context){
+
+            var rate = JsonObject()
+            rate = config.JSON.ReadingJsonBasico("", context.packageName, context)
+
+            val gson = Gson()
+
+            val ratesObject = rate.getAsJsonObject("rates")
+            val ratesArray = JsonArray()
+
+            Log.i(TAG, "Reading: $ratesObject")
+            Log.i(TAG, "Reading: $ratesObject")
+
+            ratesObject.entrySet().forEach {
+                (fecha, monedaObject) ->
+               // val moneda = monedaObject.keySet().
+                //val cantidad = monedaObject[moneda].asDouble
+
+
+
+
+
+/*
+                if (moneda != null) {
+                    val rateObject = JsonObject()
+                    rateObject.addProperty("fecha", fecha)
+                    rateObject.addProperty("moneda", moneda)
+                    rateObject.addProperty("cantidad", cantidad)
+                    ratesArray.add(rateObject)
+                }
+*/
+
+
+            }
+
+        }
     }
 
 }
+
+
 
