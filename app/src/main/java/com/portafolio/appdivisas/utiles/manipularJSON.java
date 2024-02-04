@@ -3,6 +3,8 @@ package com.portafolio.appdivisas.utiles;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.example.ListFechas;
+import com.example.example.ListMonto;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -48,6 +50,50 @@ public class manipularJSON {
                 objetoPersonal = gson.fromJson(buffer, JsonObject.class);
             }
           //  System.out.println(objetoPersonal);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return objetoPersonal;
+
+    }
+
+    public ListMonto ReadingJsonListMonto(String params, String PackageName, Context context) {
+
+        String ubicacionJSON = "/data/data/" + PackageName + "/files/" + params;
+
+        Gson gson = new Gson();
+        ListMonto objetoPersonal = null;
+        try {
+            BufferedReader buffer = new BufferedReader(new FileReader(ubicacionJSON));
+            if( buffer!=null    ) {
+
+                objetoPersonal = gson.fromJson(buffer, ListMonto.class);
+            }
+            //  System.out.println(objetoPersonal);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return objetoPersonal;
+
+    }
+
+    public ListFechas ReadingJsonListFecha(String params, String PackageName, Context context) {
+
+        String ubicacionJSON = "/data/data/" + PackageName + "/files/" + params;
+
+        Gson gson = new Gson();
+        ListFechas objetoPersonal = null;
+        try {
+            BufferedReader buffer = new BufferedReader(new FileReader(ubicacionJSON));
+            if( buffer!=null    ) {
+
+                objetoPersonal = gson.fromJson(buffer, ListFechas.class);
+            }
+            //  System.out.println(objetoPersonal);
 
         } catch (IOException e) {
             e.printStackTrace();

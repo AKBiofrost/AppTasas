@@ -199,6 +199,14 @@ class peticiones {
                     }
                     monto.add("monto",Listmonto )
                     fechas.add("fechas",Listfechas )
+                    Log.i(TAG, "Reading monto: $monto")
+
+
+                    /*---------------------------------------------------------------------------*/
+                    Log.i(TAG, "monto: "+ monto)
+                    /*---------------------------------------------------------------------------*/
+
+
                     config.JSON.JSONSave("fechas.json", fechas,
                         "com.portafolio.appdivisas",context )
 
@@ -206,11 +214,51 @@ class peticiones {
                         "com.portafolio.appdivisas",context )
 
 
-                    val ratesArray = JsonArray()
+                    val montoObject = config.JSON.ReadingJsonListMonto("monto.json","com.portafolio.appdivisas", context)
+                    val fechasObject = config.JSON.ReadingJsonListFecha("fechas.json","com.portafolio.appdivisas", context)
+                    Log.i(TAG, "montoObject.monto: "+ montoObject.monto)
+                    //val montoObjectMonte = montoObject.size()
+                    Log.i(TAG, "montoObject.monto: "+ montoObject.monto.get(0).keySet().toString())
+                    val keyMoney=montoObject.monto.get(0).keySet().toString()
 
-                    Log.i(TAG, "Reading: $ratesObject")
-                    Log.i(TAG, "Reading: $ratesObject")
+                    keyMoney.replace(']',' ')
+                    keyMoney.replace('[',' ')
 
+                    Log.e(TAG, "montoObject.monto: "+ keyMoney.substring(1))
+                    val keyMoney1=keyMoney.substring(1)
+                    Log.e(TAG, "montoObject.monto: "+ keyMoney.substring(0, keyMoney.length-1))
+                    val keyMoney2=keyMoney1.substring(0, keyMoney.length-2)
+
+                    Log.i(TAG, "montoObject.monto: "+ keyMoney2)
+
+              for(i in montoObject.monto){
+
+                  Log.i(TAG, "montoObject.monto: "+ i.get(keyMoney2))
+              }
+
+
+/*
+                    for(j in fechasObject.fechas){
+
+                        Log.i(TAG, "montoObject.monto: "+ j)
+                    }
+*/
+                    /*
+                    monto.entrySet().forEach{
+                            (moneda, valorObject) ->
+
+                        //   Listfechas.add(fecha)
+                        //   Listmonto.add(monedaObject)
+                        Log.i(TAG, "valorObject: $moneda")
+                        Log.e(TAG, "valorObject: "+valorObject)
+
+                        /*
+                        val moneda = monedaObject.keySet().firstOrNull()
+                        val cantidad = monedaObject[0]?.asDouble
+*/
+                        // monto.add("monto",Listmonto )
+                    }
+*/
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -221,7 +269,9 @@ class peticiones {
             })
 
         }
-
+        fun removeLastNchars(str: String, n: Int): String {
+            return str.substring(0, str.length - n)
+        }
         public fun getAllComments(context: Context)  {
             var valor = "dinero"
             val api = Retrofit.Builder()
