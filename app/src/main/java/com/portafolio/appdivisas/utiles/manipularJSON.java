@@ -71,6 +71,7 @@ public class manipularJSON {
 
                 objetoPersonal = gson.fromJson(buffer, ListMonto.class);
             }
+
             //  System.out.println(objetoPersonal);
 
         } catch (IOException e) {

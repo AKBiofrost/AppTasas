@@ -150,6 +150,9 @@ class peticiones {
         val fechas= JsonObject()
         val Listmonto= JsonArray()
         val monto= JsonObject()
+        val ListMoney_date= JsonArray()
+        val Money_date= JsonObject()
+        val ListComplete= JsonObject()
 
         public   fun getAllDate(context: Context, moneda: String){
 
@@ -191,10 +194,6 @@ class peticiones {
                         Log.i(TAG, "monedaObject: $fecha")
                         Log.e(TAG, "monedaObject: "+monedaObject)
 
-                        /*
-                        val moneda = monedaObject.keySet().firstOrNull()
-                        val cantidad = monedaObject[0]?.asDouble
-*/
                         monto.add("monto",Listmonto )
                     }
                     monto.add("monto",Listmonto )
@@ -230,35 +229,23 @@ class peticiones {
                     val keyMoney2=keyMoney1.substring(0, keyMoney.length-2)
 
                     Log.i(TAG, "montoObject.monto: "+ keyMoney2)
+                    val size=montoObject.monto.withIndex()
 
-              for(i in montoObject.monto){
 
-                  Log.i(TAG, "montoObject.monto: "+ i.get(keyMoney2))
+
+
+              for((index, i) in size ){
+
+                  ListComplete.addProperty("tasa",montoObject.monto.get(index).get(keyMoney2).toString() )
+                  ListComplete.addProperty("fecha",fechasObject.fechas.get(index))
+                  ListMoney_date.add(ListComplete)
+                  Log.i(TAG, "montoObject.monto: "+ montoObject.monto.get(index).get(keyMoney2))
+                  Log.i(TAG, "montoObject.fecha: "+ fechasObject.fechas.get(index))
+                 // Log.i(TAG, "montoObject.monto: "+ i.get(keyMoney2))
+                  Money_date.add("tasa",ListMoney_date )
               }
-
-
-/*
-                    for(j in fechasObject.fechas){
-
-                        Log.i(TAG, "montoObject.monto: "+ j)
-                    }
-*/
-                    /*
-                    monto.entrySet().forEach{
-                            (moneda, valorObject) ->
-
-                        //   Listfechas.add(fecha)
-                        //   Listmonto.add(monedaObject)
-                        Log.i(TAG, "valorObject: $moneda")
-                        Log.e(TAG, "valorObject: "+valorObject)
-
-                        /*
-                        val moneda = monedaObject.keySet().firstOrNull()
-                        val cantidad = monedaObject[0]?.asDouble
-*/
-                        // monto.add("monto",Listmonto )
-                    }
-*/
+                    Log.i(TAG, "Reading Money_date: $Money_date")
+                    config.JSON.JSONSave("tasas.json",Money_date, "com.portafolio.appdivisas",context )
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
