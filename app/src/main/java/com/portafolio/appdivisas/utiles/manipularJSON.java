@@ -3,6 +3,7 @@ package com.portafolio.appdivisas.utiles;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.example.Datagrafico;
 import com.example.example.ListFechas;
 import com.example.example.ListMonto;
 import com.google.gson.Gson;
@@ -70,6 +71,29 @@ public class manipularJSON {
             if( buffer!=null    ) {
 
                 objetoPersonal = gson.fromJson(buffer, ListMonto.class);
+            }
+
+            //  System.out.println(objetoPersonal);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        return objetoPersonal;
+
+    }
+
+    public Datagrafico ReadingJsonDatosGraficos(String params, String PackageName, Context context) {
+
+        String ubicacionJSON = "/data/data/" + PackageName + "/files/" + params;
+
+        Gson gson = new Gson();
+        Datagrafico objetoPersonal = null;
+        try {
+            BufferedReader buffer = new BufferedReader(new FileReader(ubicacionJSON));
+            if( buffer!=null    ) {
+
+                objetoPersonal = gson.fromJson(buffer, Datagrafico.class);
             }
 
             //  System.out.println(objetoPersonal);

@@ -152,7 +152,7 @@ class peticiones {
         val monto= JsonObject()
         val ListMoney_date= JsonArray()
         val Money_date= JsonObject()
-        val ListComplete= JsonObject()
+
 
         public   fun getAllDate(context: Context, moneda: String){
 
@@ -235,14 +235,13 @@ class peticiones {
 
 
               for((index, i) in size ){
-
+                  val ListComplete= JsonObject()
                   ListComplete.addProperty("tasa",montoObject.monto.get(index).get(keyMoney2).toString() )
                   ListComplete.addProperty("fecha",fechasObject.fechas.get(index))
                   ListMoney_date.add(ListComplete)
-                  Log.i(TAG, "montoObject.monto: "+ montoObject.monto.get(index).get(keyMoney2))
-                  Log.i(TAG, "montoObject.fecha: "+ fechasObject.fechas.get(index))
-                 // Log.i(TAG, "montoObject.monto: "+ i.get(keyMoney2))
+                  Log.i(TAG, "montoObject.monto: "+ListMoney_date )
                   Money_date.add("tasa",ListMoney_date )
+
               }
                     Log.i(TAG, "Reading Money_date: $Money_date")
                     config.JSON.JSONSave("tasas.json",Money_date, "com.portafolio.appdivisas",context )

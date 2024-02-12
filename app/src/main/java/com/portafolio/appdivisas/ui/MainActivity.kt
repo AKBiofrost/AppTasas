@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val button = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        //lineGrafica
         button.setOnClickListener {
             peticiones.getAllComments(this)
 

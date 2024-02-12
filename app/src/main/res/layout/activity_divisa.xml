@@ -18,4 +18,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.echo.holographlibrary.LineGraph
+        android:id="@+id/lineGrafica"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divisa" />
+
+    <TextView
+        android:id="@+id/tvPuntos"
+        android:layout_width="match_parent"
+        android:layout_height="421dp"
+        android:layout_margin="16dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineGrafica" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
