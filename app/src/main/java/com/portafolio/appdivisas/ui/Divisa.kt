@@ -40,7 +40,7 @@ class divisa : AppCompatActivity() {
         /*----------------------------------------------------------------------------------------*/
         Toast.makeText(
             this@divisa,
-            "Linea: , Punto: ",
+            "Cargando Historial de tasas ${valormoneda} ",
             Toast.LENGTH_LONG
         ).show()
         //
@@ -48,25 +48,25 @@ class divisa : AppCompatActivity() {
        val moneda= findViewById<TextView>(R.id.divisa)
         moneda.setText(dato)
         /*----------------------------------------------------------------------------------------*/
-       val graficosDatos= config.JSON.ReadingJsonDatosGraficos("tasas.json","com.portafolio.appdivisas", this)
-        /*----------------------------------------------------------------------------------------*/
 
-       // Sizes=graficosDatos.tasa.size
-       // var linea = Line()
 
-      //  Log.i(TAG, "graficosDatos: "+ graficosDatos.tasa.size)
-      //  Log.i(TAG, "graficosDatos: "+ graficosDatos.tasa.size*0.80)
-     //  for((index) in graficosDatos.tasa.withIndex()) {
-          // Log.i(TAG, "graficosDatos: "+ graficosDatos.tasa.size*0.80)
-           //if(index>graficosDatos.tasa.size*0.80){
-            //   Log.i(TAG, "graficosDatos--: "+ index)
-            //   linea = datosGrafica(linea, index.toString(),graficosDatos.tasa.get(index).tasa.toString())
-         //  }
 
-       }
+    }
 
-      //  linea.color = Color.parseColor("FFBB33")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // Your logic here
+        config.JSON.DeleteFileJSON(
+            "tasas.json",
+            "com.portafolio.appdivisas",
+        )
 
-       // graficar(linea)
+        config.JSON.DeleteFileJSON(
+            "tazas.json",
+            "com.portafolio.appdivisas",
+        )
+
+    }
+
     }
 

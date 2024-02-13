@@ -74,6 +74,7 @@ class peticiones {
         val monto = JsonObject()
         val ListMoney_date = JsonArray()
         val Money_date = JsonObject()
+        var tasas = "100"
 
 
         public fun getAllDate(context: Context, moneda: String) {
@@ -162,12 +163,8 @@ class peticiones {
                     val keyMoney2 = keyMoney1.substring(0, keyMoney.length - 2)
 
                     Log.i(TAG, "montoObject.monto: " + keyMoney2)
-                    val size = montoObject.monto.withIndex()
 
-
-
-
-                    for ((index, i) in size) {
+                    for (index in 0 until montoObject.monto.size) {
                         val ListComplete = JsonObject()
                         ListComplete.addProperty(
                             "tasa",
@@ -197,8 +194,8 @@ class peticiones {
                     var linea = Line()
 
                     Log.i(TAG, "graficosDatos total: " + graficosDatos.tasa.size)
-                    Log.i(TAG, "graficosDatos %: " + graficosDatos.tasa.size * 0.90)
-                    val sizes= graficosDatos.tasa.size*0.90.toInt()
+                    Log.i(TAG, "graficosDatos %: " + graficosDatos.tasa.size * 0.80)
+                    val sizes = graficosDatos.tasa.size * 0.80.toInt()
 
 
                     val json = JsonObject()
@@ -211,20 +208,20 @@ class peticiones {
 
 
 
-                    for( i in sizes until graficosDatos.tasa.size ) {
-                        Log.i(TAG, "graficosDatos: " + graficosDatos.tasa.size * 0.90.toInt())
-                        if (i > graficosDatos.tasa.size * 0.95) {
+                    for (i in sizes until graficosDatos.tasa.size) {
+                        Log.i(TAG, "graficosDatos: " + graficosDatos.tasa.size * 0.80.toInt())
+                        if (i > graficosDatos.tasa.size * 0.80) {
                             Log.i(TAG, "graficosDatos--: " + i)
 
-                                 val ListComplete = JsonObject()
-                                 ListComplete.addProperty(
-                                     "tasa",
-                                     montoObject.monto.get(i).get(keyMoney2).toString()
-                                 )
-                                 ListComplete.addProperty("fecha", fechasObject.fechas.get(i))
-                                 ListMoney_date.add(ListComplete)
-                                 Log.i(TAG, "montoObject.monto: " + ListMoney_date)
-                                 Money_date.add("tasa", ListMoney_date)
+                            val ListComplete = JsonObject()
+                            ListComplete.addProperty(
+                                "tasa",
+                                montoObject.monto.get(i).get(keyMoney2).toString()
+                            )
+                            ListComplete.addProperty("fecha", fechasObject.fechas.get(i))
+                            ListMoney_date.add(ListComplete)
+                            Log.i(TAG, "montoObject.monto: " + ListMoney_date)
+                            Money_date.add("tasa", ListMoney_date)
 
                         }
                     }
@@ -242,23 +239,24 @@ class peticiones {
                         context
                     )
 
-                   for( i in sizes until graficosDatoz.tasa.size ) {
-                        Log.i(TAG, "graficosDatos: " + graficosDatoz.tasa.size * 0.95.toInt())
-                       // if (i > graficosDatos.tasa.size * 0.80) {
-                            Log.i(TAG, "graficosDatos--: " + i)
-                            linea = datosGrafica(
-                                linea,
-                                i.toString(),
-                                graficosDatoz.tasa.get(i).tasa.toString(),
-                                context
-                            )
-                       // }
-
+                    for (i in sizes until graficosDatoz.tasa.size) {
+                        Log.i(TAG, "graficosDatos: " + graficosDatoz.tasa.size * 0.80.toInt())
+                        // if (i > graficosDatos.tasa.size * 0.80) {
+                        Log.i(TAG, "graficosDatos--: " + i)
+                        linea = datosGrafica(
+                            linea,
+                            i.toString(),
+                            graficosDatoz.tasa.get(i).fecha.toString(),
+                            graficosDatoz.tasa.get(i).tasa.toString(),
+                            context
+                        )
+                        // }
+                        tasas=graficosDatoz.tasa.get(i).tasa.toString()
                     }
 
-                     // linea.color = Color.parseColor("FFBB33")
+                    Log.i(TAG, "graficosDatos--: " + tasas)
 
-                    graficar(linea, context, graficosDatoz.tasa.size * 0.90)
+                    graficar(linea, context, graficosDatoz.tasa.size * 0.80)
 
                     /*-----------------------------------------------------------------------------------------------------------*/
 
@@ -266,6 +264,12 @@ class peticiones {
                 }
 
                 override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+
+                    config.Dialog.AlertDialog_error(
+                        "Falla de petición",
+                        "La petición no es exitosa",
+                        context
+                    )
 
                 }
 
@@ -311,6 +315,10 @@ class peticiones {
                         arrayList.add(presentacion(response.body()?.rates?.JPY.toString(), "JPY"))
                         arrayList.add(presentacion(response.body()?.rates?.CAD.toString(), "CAD"))
                         arrayList.add(presentacion(response.body()?.rates?.MXN.toString(), "MXN"))
+                        arrayList.add(presentacion(response.body()?.rates?.ZAR.toString(), "ZAR"))
+                        arrayList.add(presentacion(response.body()?.rates?.CHF.toString(), "CHF"))
+                        arrayList.add(presentacion(response.body()?.rates?.MYR.toString(), "MYR"))
+                        arrayList.add(presentacion(response.body()?.rates?.NZD.toString(), "NZD"))
                         Log.e(TAG, "-------------------------------------------------------")
 
                         init(arrayList, context)
@@ -319,7 +327,11 @@ class peticiones {
                 }
 
                 override fun onFailure(call: Call<Dinero>, t: Throwable) {
-
+                    config.Dialog.AlertDialog_error(
+                        "Falla de petición",
+                        "La petición no es exitosa",
+                        context
+                    )
                 }
             })
         }
@@ -390,7 +402,13 @@ class peticiones {
 
         }
 
-        fun datosGrafica(linea: Line, ejeX: String, ejeY: String, context: Context): Line {
+        fun datosGrafica(
+            linea: Line,
+            ejeX: String,
+            fecha: String,
+            ejeY: String,
+            context: Context
+        ): Line {
             val punto = LinePoint()
             val EjeX = ejeX.toDouble()
             val EjeY = ejeY.toDouble()
@@ -399,7 +417,7 @@ class peticiones {
             linea.addPoint(punto)
             linea.setColor(Color.parseColor("#FFBB33"));
             val tvPuntos = (context as Activity).findViewById<TextView>(R.id.tvPuntos)
-            tvPuntos.text = "${tvPuntos.text}\nX: $ejeX, Y:$ejeY"
+            tvPuntos.text = "${tvPuntos.text}\nFecha: $fecha - tasa:$ejeY"
 
             return linea
         }
@@ -408,8 +426,9 @@ class peticiones {
             val grafico = (context as Activity).findViewById<LineGraph>(R.id.lineGrafica)
             grafico.addLine(linea)
             val Sices = Sizes.toFloat()
+            val SiceY=tasas.toFloat()+5
             grafico.setRangeX(1f, Sices)
-            grafico.setRangeY(0f, 30f)
+            grafico.setRangeY(0f, SiceY)
             grafico.lineToFill = 0
         }
 
