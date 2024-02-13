@@ -34,7 +34,13 @@ class divisa : AppCompatActivity() {
       val valormoneda= arr?.get(1)
 
         if (valormoneda != null) {
-            peticiones.getAllDate(this, valormoneda)
+
+            if (config.calibrar.isOnline(this)) {
+                peticiones.getAllDate(this, valormoneda)
+            } else {
+                config.Dialog.AlertDialog_error("Sin red", "No tiene conexion de internet", this)
+            }
+
         };
 
         /*----------------------------------------------------------------------------------------*/

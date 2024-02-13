@@ -55,13 +55,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:cardCornerRadius="20dp"
         app:cardElevation="15dp"
+        android:gravity="center"
+        android:padding="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divisa">
 
         <com.echo.holographlibrary.LineGraph
             android:id="@+id/lineGrafica"
-            android:layout_width="match_parent"
+            android:layout_width="389dp"
             android:layout_height="210dp"
+            android:padding="20dp"
+            android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divisa" />

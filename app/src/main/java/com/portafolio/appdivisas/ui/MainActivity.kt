@@ -11,6 +11,7 @@ import com.example.exampleapikotlin.interfaz.APIService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.JsonObject
 import com.portafolio.appdivisas.R
+import com.portafolio.appdivisas.controladores.config
 import com.portafolio.appdivisas.controladores.peticiones
 import com.portafolio.appdivisas.interfaz.date
 import com.portafolio.appdivisas.utiles.manipularJSON
@@ -50,7 +51,12 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         //lineGrafica
         button.setOnClickListener {
-            peticiones.getAllComments(this)
+            if (config.calibrar.isOnline(this)) {
+                peticiones.getAllComments(this)
+            } else {
+                config.Dialog.AlertDialog_error("Sin red", "No tiene conexion de internet", this)
+            }
+
 
         }
     }
@@ -59,16 +65,13 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
 
-
     }
 
 
-    override  fun onResume() {
+    override fun onResume() {
         super.onResume()
 
     }
-
-
 
 
     /*
