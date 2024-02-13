@@ -11,6 +11,7 @@ class  config {
         var Dialog=VentanaEmergente()
         var paquete = "com.portafolio.appdivisas"
         var BASE_URL = "https://api.frankfurter.app"
+        var respuesta=false
     }
 
 }

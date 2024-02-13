@@ -15,10 +15,12 @@ import com.echo.holographlibrary.LineGraph
 import com.echo.holographlibrary.LinePoint
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.portafolio.appdivisas.controladores.config
+import com.portafolio.appdivisas.utiles.Log
 
 class divisa : AppCompatActivity() {
 
     var Sizes=20
+    val TAG="divisas"
 
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,43 +51,22 @@ class divisa : AppCompatActivity() {
        val graficosDatos= config.JSON.ReadingJsonDatosGraficos("tasas.json","com.portafolio.appdivisas", this)
         /*----------------------------------------------------------------------------------------*/
 
-        Sizes=graficosDatos.tasa.size
-        var linea = Line()
+       // Sizes=graficosDatos.tasa.size
+       // var linea = Line()
 
-       for((index,valor) in graficosDatos.tasa.withIndex()){
-           linea = datosGrafica(linea, index.toString(),graficosDatos.tasa.get(index).tasa.toString())
+      //  Log.i(TAG, "graficosDatos: "+ graficosDatos.tasa.size)
+      //  Log.i(TAG, "graficosDatos: "+ graficosDatos.tasa.size*0.80)
+     //  for((index) in graficosDatos.tasa.withIndex()) {
+          // Log.i(TAG, "graficosDatos: "+ graficosDatos.tasa.size*0.80)
+           //if(index>graficosDatos.tasa.size*0.80){
+            //   Log.i(TAG, "graficosDatos--: "+ index)
+            //   linea = datosGrafica(linea, index.toString(),graficosDatos.tasa.get(index).tasa.toString())
+         //  }
 
        }
 
       //  linea.color = Color.parseColor("FFBB33")
 
-        graficar(linea)
+       // graficar(linea)
     }
 
-
-
-
-
-    fun datosGrafica(linea: Line, ejeX: String, ejeY: String): Line {
-        val punto = LinePoint()
-        val EjeX = ejeX.toDouble()
-        val EjeY = ejeY.toDouble()
-        punto.setX(EjeX)
-        punto.setY(EjeY)
-        linea.addPoint(punto)
-        val tvPuntos = findViewById<TextView>(R.id.tvPuntos)
-        tvPuntos.text = "${tvPuntos.text}\nX: $ejeX, Y:$ejeY"
-
-        return linea
-    }
-
-    fun graficar(linea: Line) {
-        val grafico = findViewById<LineGraph>(R.id.lineGrafica)
-        grafico.addLine(linea)
-        val Sices=Sizes.toFloat()
-        grafico.setRangeX(1f, Sices)
-        grafico.setRangeY(0f, 30f)
-        grafico.lineToFill = 0
-    }
-
-}
